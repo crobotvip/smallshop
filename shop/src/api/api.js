@@ -32,7 +32,7 @@ const getHomeDisvocerList = (params) => wxRequest(params, apiMall + '/api/mall/d
 const getGoodsList = (params) => wxRequest(params, apiMall + '/api/mall/searchGoodsList');
 
 //查询商品详情信息
-const goodsDetail = (params) => wxRequest(params, apiMall + '/api/mall/goods');
+const goodsDetail = (params) => wxRequest(params, apiMall + '/api/goods/detail');// /api/mall/goods
 //商品加入购物车
 const addCart = (params) => wxRequest(params, apiMall + '/api/mall/goodsCart/add');
 //用户的购物车商品列表
@@ -143,7 +143,7 @@ const refundApply = (params) => wxRequest(params, apiMall + '/api/mall/refund/sa
 
 //商品分类--begin
 //一级分类
-const rootCtegoryList = (params) => wxRequest(params, apiMall + '/api/mall/rootCtegoryList');
+const rootCtegoryList = (params) => wxRequest(params, apiMall + '/api/catalog/index');
 //二级三级分类
 const childGoodsCatetoryList = (params) => wxRequest(params, apiMall + '/api/mall/childGoodsCatetoryList');
 //商品分类--end

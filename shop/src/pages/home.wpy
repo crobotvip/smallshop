@@ -40,7 +40,7 @@
       </navigator>
     </view>
     <!--发现好商品模块-->
-    <discover title_text="xxxxx" :discoverlist.sync="discoverList"></discover>
+    <discover  :discoverlist.sync="discoverList"></discover>
     <!--加载更多时动画-->
     <bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore>
     <!--暂无数据显示-->
@@ -132,15 +132,10 @@
 
     async getHomeData () {
       const json = await api.getHomeData({method: 'GET'});
-//    let json = await wepy.request('http://127.0.0.1:8360/api/index');
       console.log(JSON.stringify(json))
       if (json.errno == 0) {
         this.adList = json.data.banner;
         this.discoverList = json.data.hotGoodsList;
-        console.log("xxx"+this.discoverList);
-
-
-
         this.$apply();
       } else {}
     }

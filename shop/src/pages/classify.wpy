@@ -17,9 +17,9 @@
     <scroll-view class="classify_detail" scroll-y scroll-with-animation="true" style="height:{{windowHeight-50}}px">
       <view class="children">
         <navigator hover-class="none" class="children_item" wx:for="{{childcateList}}" wx:for-item="item" wx:key="index"
-                   url="/pages/search?cateCode={{item.secondCategory.code}}&title={{item.secondCategory.name}}">
-          <image class="child_image" src="{{item.secondCategory.thumLogo}}"></image>
-          <view class="child_name">{{item.secondCategory.name}}</view>
+                   url="/pages/search?cateCode={{item.secondCategory.code}}&title={{item.name}}">
+          <image class="child_image" src="{{item.banner_url}}"></image>
+          <view class="child_name">{{item.name}}</view>
         </navigator>
       </view>
     </scroll-view>
@@ -64,36 +64,33 @@
       }
       this.$apply();
     }
-    async getHomeData() {
-      const json = await api.getHomeData({
-      });
-      if (json.data.code == 0) {
-        console.log(json)
-        this.$apply();
-      } else {}
-    }
 
     async getRootCateTopLevel () {
       const json = await api.rootCtegoryList({
         query: {}
       });
-      if (json.data.code == 0) {
-        this.rootcateList = json.data.list;
-        if (this.rootcateList.length > 0) {
-          let selCode = wx.getStorageSync(SEL_CLASS_CODE);
-          var selRottCateCode = this.rootcateList[0].code;
-          if (selCode.length == 0) {
-            this.rootcateList[0].active = true;
-          } else {
-            for (var i = 0; i < this.rootcateList.length; i++) {
-              if (selCode == this.rootcateList[i].code) {
-                selRottCateCode = this.rootcateList[i].code;
-                this.rootcateList[i].active = true;
-              }
-            }
-          }
 
-          this.getChildCate(selRottCateCode);
+      if (json.errno == 0) {
+
+        this.rootcateList = json.data.categoryList;
+        this.childcateList = json.data.categoryList[0].subCategoryList;
+        console.log("root"+JSON.stringify(this.rootcateList))
+
+        if (this.rootcateList.length > 0) {
+//          let selCode = wx.getStorageSync(SEL_CLASS_CODE);
+//          var selRottCateCode = this.rootcateList[0].code;
+//          if (selCode.length == 0) {
+//            this.rootcateList[0].active = true;
+//          } else {
+//            for (var i = 0; i < this.rootcateList.length; i++) {
+//              if (selCode == this.rootcateList[i].code) {
+//                selRottCateCode = this.rootcateList[i].code;
+//                this.rootcateList[i].active = true;
+//              }
+//            }
+//          }
+
+//          this.getChildCate(selRottCateCode);
         }
       } else {
         tip.error(json.data.msg);
@@ -103,6 +100,7 @@
 
     onLoad () {
       let that = this;
+
       let systemInfo = wx.getStorageSync(SYSTEM_INFO);
       this.windowHeight = systemInfo.windowHeight;
       this.$apply();
@@ -110,6 +108,7 @@
     }
 
     onShow () {
+
       this.getRootCateTopLevel();
     }
 
@@ -117,7 +116,7 @@
     methods = {
       changeCate(e) {
         let code = e.currentTarget.dataset.code;
-        this.getChildCate(code);
+//        this.getChildCate(code);
 
         wepy.setStorageSync(SEL_CLASS_CODE, code);
         //设置一级分类的选中状态
